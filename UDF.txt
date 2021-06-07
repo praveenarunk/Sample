@@ -1,0 +1,67 @@
+                     UDF
+                    ------
+
+-->Scalar Function
+-->Inline table-valued function
+-->Multi-statement table-valued functions.
+
+Scalar Function
+---------------
+
+-->Scalar function may or may not have an parameter.
+-->The return value can br any datatype excepts text,ntext,image,cursor,timestamp
+
+EX:SELECT SQUARE(3)-->With-Parameter
+ SELECT GETDATE()--NO PARAMETER
+
+SYNTAX: CREATE FUNCTION FUNCTION_NAME (@PARAMETER1 DATATYPE,@PARAMETER2 DATATYPE)
+        RETURNS Return_Datatype
+        AS
+        BEGIN
+         ---Function Body
+        RETURN return_Datatype
+        END
+
+-->Scalar function return only one value
+
+
+Inline Table Value Function
+--------------------------------
+ 
+-->Used to return table.
+-->Function block doen't need begin and end block
+
+SYNTAX: CREATE FUNCTION functionname(@Parameter1 DATATYPE)
+        RETURNS TABLE
+         AS
+         RETURN (SELECT * FROM DBO.TABLE WHERE COLUMNNAME=@Parameter1)
+-->Structure of table is returned,is determined by the SELECT statement within the function
+
+-->SELECT * FROM FUNCTIONNAME(@PARAMETERVALUE)
+
+-->We can also use inline table as join wiith other table
+
+MULTI TABLE VALUE FUNCTION
+------------------------------------------
+
+SYNTAX: CREATE FUNCTION FUNCTIONNAME()
+        RETURNS @Table(Table Variable) TableName(Data Type) (Column1 DATATYPE,Column2 DATATYPE)
+         AS
+          BEGIN
+            INSERT INTO @TABLENAME
+             SELECT * from TableName
+             Return
+             END
+
+-->We can specify structure of table in which column we want.
+
+D/B Inline and Multi Statement
+-----------------------------------
+-->Inline statement ,RETURN Clause doesn't have structure but multi line having structure.
+--->Inline Table cannot have BEGIN AND END but Multi have it.
+--->Better performance in inline than multi function.
+---->Possible to update the underlying table ,using inline table function,but not possible in multi function.
+Query: UPDATE FUNCTIONNAME() SET COLUMN='' WHERE COLUMN=''--->Inline function
+
+
+-->Inline table value function is same as treat likke View and multi-statement is treated as stored procedure.
